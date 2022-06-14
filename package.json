@@ -1,0 +1,20 @@
+{
+  "name": "find-my-council",
+  "version": "1.0.0",
+  "description": "Find your Local Government Area given the your geocoded address",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eustin/find-my-council.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eustin/find-my-council/issues"
+  },
+  "homepage": "https://github.com/eustin/find-my-council#readme"
+}
