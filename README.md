@@ -1,6 +1,14 @@
 # find-my-council
 Find your Local Government Area given the your geocoded address
 
+## Prerequisites
+
+* Python 3.x
+* If working on Ubuntu/Debian, you have `python3-venv` globally intalled. If not, intall it using `sudo apt install python3-venv`
+* Bash
+
+I will eventually Dockerise so that you can avoid the above hassle. 
+
 ## The Geocoding API
 
 To map an address to a latitude and longitude coordinate pair, we will use the free service kindly provided by https://geocode.localfocus.nl/.
