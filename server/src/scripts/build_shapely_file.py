@@ -20,8 +20,8 @@ def get_shapefiles():
         response = requests.get(shapefile_url)
         assert response.status_code == 200
     except AssertionError:
-        logger.error("error downloading LGA shapefile")
-        raise
+        logger.error("error downloading lga shapefile")
+        sys.exit()
 
     open(LGA_ZIPFILE_LOCATION, "wb").write(response.content)
 
