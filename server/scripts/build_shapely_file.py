@@ -74,18 +74,9 @@ def build():
 
     with open("data/lga_shapely.pickle", "wb") as f:
         pickle.dump(shapely_file_dict,f)
-               
-def find(lat, lon):
-    from shapely.geometry import Point
-    point = Point(lat, lon)
-    with fiona.open("data/lga_shapely.shp", "r") as f:
-        for lga in f:
-            lga_name = get_lga_name(lga)
-            # print(lga["geometry"].keys())
-            # print(type(lga["geometry"]["coordinates"]))
-            # print(type(shape(lga["geometry"])))
-            # return
-
+    
+    logger.info("shapely file successfully built")
+   
 if __name__ == "__main__":
     get_shapefiles()
     extract_shapefiles()
