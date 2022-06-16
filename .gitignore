@@ -108,3 +108,14 @@ dist
 **/.vscode
 
 *.zip
+
+# shapefile files
+*.CPG
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.shp.xml
+*.shx
+*.xml

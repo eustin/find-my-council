@@ -2,9 +2,12 @@ import os
 import logging
 from dotenv import load_dotenv
 import requests
+from zipfile import ZipFile
 
 from shapely.geometry import mapping, shape
 import fiona
+
+LGA_ZIPFILE_LOCATION="data/lga_shapefile.zip"
 
 load_dotenv()
 logging.basicConfig(level=os.environ.get("LOGGING_LEVEL", "INFO"))
@@ -19,8 +22,12 @@ def get_shapefiles():
     except AssertionError:
         logger.error("error downloading LGA shapefile")
         raise
-    
-    open("data/lga_shapefile.zip", "wb").write(response.content)
+
+    open(LGA_ZIPFILE_LOCATION, "wb").write(response.content)
+
+def extract_shapefiles():
+    with ZipFile(LGA_ZIPFILE_LOCATION, 'r') as f:
+        f.extractall("data")
 
 def build():
     logger.info("building shapely file")
@@ -29,4 +36,5 @@ def build():
 
 if __name__ == "__main__":
     get_shapefiles()
+    extract_shapefiles()
     build()
