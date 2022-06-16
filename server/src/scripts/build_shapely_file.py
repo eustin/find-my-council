@@ -1,8 +1,11 @@
 import os
+import sys
 import logging
+import glob
 from dotenv import load_dotenv
 import requests
 from zipfile import ZipFile
+
 
 from shapely.geometry import mapping, shape
 import fiona
@@ -28,6 +31,13 @@ def get_shapefiles():
 def extract_shapefiles():
     with ZipFile(LGA_ZIPFILE_LOCATION, 'r') as f:
         f.extractall("data")
+
+def get_shapefile_fpath():
+    try:
+        return glob.glob("data/*.shp")[0]
+    except IndexError as e:
+        logger.error(f"could not find shapefile: {e}")
+        sys.exit()
 
 def build():
     logger.info("building shapely file")
