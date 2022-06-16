@@ -29,6 +29,7 @@ def get_shapefiles():
     open(LGA_ZIPFILE_LOCATION, "wb").write(response.content)
 
 def extract_shapefiles():
+    logger.info("extracting shapefiles")
     with ZipFile(LGA_ZIPFILE_LOCATION, 'r') as f:
         f.extractall("data")
 
