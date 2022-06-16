@@ -122,3 +122,5 @@ dist
 *.cpg
 
 *.pickle
+
+**/__pycache__
