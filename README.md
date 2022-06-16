@@ -9,6 +9,13 @@ Find your Local Government Area given the your geocoded address
 
 I will eventually Dockerise so that you can avoid the above hassle. 
 
+## Current state of the project
+
+What's currently available is functionality to map `(latitude, longitude)` pairs to LGA names. To see this in action do thes things:
+
+* In the project's root directory, issue `make install`. This will download the LGA shapefiles from the Australian Bureau of Statistics and process them into a format suitable for use with Shapely. 
+* Run `make example` to find out which LGAs some landmarks are located in!
+
 ## The Geocoding API
 
 To map an address to a latitude and longitude coordinate pair, we will use the free service kindly provided by https://geocode.localfocus.nl/.
