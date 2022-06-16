@@ -38,6 +38,16 @@ def get_shapefile_fpath():
         logger.error(f"could not find shapefile: {e}")
         sys.exit()
 
+def get_lga_name(lga):
+    try:
+        lga_props = lga["properties"]
+        return [lga_props[x] for x in lga_props if "LGA_NAME" in x].pop()
+    except KeyError as e:
+        logger.info(f"Key missing from LGA: {e}")
+    except IndexError as e:
+        logger.info(f"LGA name missing: {e}")
+    sys.exit()
+
 def build():
     fpath_shapefile = get_shapefile_fpath()
     logger.info(f"building shapely file using {fpath_shapefile}")
