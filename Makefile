@@ -11,6 +11,15 @@ install-server:
 build-shapely-file:
 	@cd server &&\
 	source venv/bin/activate &&\
-	python3 src/scripts/build_shapely_file.py
+	python3 scripts/build_shapely_file.py
+
+.PHONY: install
+install: install-server build-shapely-file
+
+.PHONY: example
+example: 
+	@cd server &&\
+	source venv/bin/activate &&\
+	python3 scripts/example.py
 
 	
