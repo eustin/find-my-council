@@ -2,10 +2,11 @@ import os
 import sys
 import logging
 import glob
+import pickle
 from dotenv import load_dotenv
 import requests
 from zipfile import ZipFile
-from shapely.geometry import shape, mapping
+from shapely.geometry import shape, GeometryCollection
 import fiona
 
 LGA_ZIPFILE_LOCATION="data/lga_shapefile.zip"
@@ -51,31 +52,39 @@ def get_lga_name(lga):
 def build():
     fpath_shapefile = get_shapefile_fpath()
     logger.info(f"building shapely file using {fpath_shapefile}")
+    
+    shapely_file_dict = {}
 
     with fiona.open(fpath_shapefile, 'r') as source:
-        with fiona.open("data/lga_shapely.shp", "w", **source.meta) as sink:
-            for i, lga in enumerate(source):
-                logger.info(f"Processing LGA at index {i}")
-                try:
-                    lga_props = lga["properties"]
-                except KeyError:
-                    logger.info(f"properties key missing from LGA at index {i}")
-                    sys.exit()
-                
-                try:
-                    lga_name = [lga_props[x] for x in lga_props if "LGA_NAME" in x].pop()
-                except IndexError:
-                    logger.info(f"LGA name missing from LGA at index {i}")
-                    sys.exit()
+        for i, lga in enumerate(source):
+            logger.info(f"Processing LGA at index {i}")
+            lga_name = get_lga_name(lga)
+            try:
+                lga_geoms = lga["geometry"]
+                assert lga_geoms is not None
+            except KeyError as e:
+                logging.info(f"LGA {lga_name} has no geometry")
+                continue
+            except AssertionError:
+                logging.info(f"LGA {lga_name} geometry is None")
+                continue
+            
+            shapes = shape(lga_geoms)
+            shapely_file_dict[lga_name] = GeometryCollection([shapes]) 
 
-                try:
-                    lga_geoms = lga["geometry"]
-                    lga["geometry"] = mapping(shape(lga_geoms))
-                except AttributeError as e:
-                    logging.info(f"LGA {lga_name} has no geometry")
-                    continue
-
-                sink.write(lga)
+    with open("data/lga_shapely.pickle", "wb") as f:
+        pickle.dump(shapely_file_dict,f)
+               
+def find(lat, lon):
+    from shapely.geometry import Point
+    point = Point(lat, lon)
+    with fiona.open("data/lga_shapely.shp", "r") as f:
+        for lga in f:
+            lga_name = get_lga_name(lga)
+            # print(lga["geometry"].keys())
+            # print(type(lga["geometry"]["coordinates"]))
+            # print(type(shape(lga["geometry"])))
+            # return
 
 if __name__ == "__main__":
     get_shapefiles()
