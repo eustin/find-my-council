@@ -124,3 +124,4 @@ dist
 *.pickle
 
 **/__pycache__
+*.sqlite3
