@@ -40,8 +40,8 @@ def get_shapefile_fpath():
         sys.exit()
 
 def build():
-    logger.info("building shapely file")
-    pass
+    fpath_shapefile = get_shapefile_fpath()
+    logger.info(f"building shapely file using {fpath_shapefile}")
     
 
 if __name__ == "__main__":
