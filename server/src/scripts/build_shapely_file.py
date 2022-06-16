@@ -5,9 +5,7 @@ import glob
 from dotenv import load_dotenv
 import requests
 from zipfile import ZipFile
-
-
-from shapely.geometry import mapping, shape
+from shapely.geometry import shape, mapping
 import fiona
 
 LGA_ZIPFILE_LOCATION="data/lga_shapefile.zip"
@@ -35,7 +33,7 @@ def extract_shapefiles():
 
 def get_shapefile_fpath():
     try:
-        return glob.glob("data/*.shp")[0]
+        return glob.glob("data/LGA_*.shp")[0]
     except IndexError as e:
         logger.error(f"could not find shapefile: {e}")
         sys.exit()
@@ -43,7 +41,31 @@ def get_shapefile_fpath():
 def build():
     fpath_shapefile = get_shapefile_fpath()
     logger.info(f"building shapely file using {fpath_shapefile}")
-    
+
+    with fiona.open(fpath_shapefile, 'r') as source:
+        with fiona.open("data/lga_shapely.shp", "w", **source.meta) as sink:
+            for i, lga in enumerate(source):
+                logger.info(f"Processing LGA at index {i}")
+                try:
+                    lga_props = lga["properties"]
+                except KeyError:
+                    logger.info(f"properties key missing from LGA at index {i}")
+                    sys.exit()
+                
+                try:
+                    lga_name = [lga_props[x] for x in lga_props if "LGA_NAME" in x].pop()
+                except IndexError:
+                    logger.info(f"LGA name missing from LGA at index {i}")
+                    sys.exit()
+
+                try:
+                    lga_geoms = lga["geometry"]
+                    lga["geometry"] = mapping(shape(lga_geoms))
+                except AttributeError as e:
+                    logging.info(f"LGA {lga_name} has no geometry")
+                    continue
+
+                sink.write(lga)
 
 if __name__ == "__main__":
     get_shapefiles()
