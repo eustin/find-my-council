@@ -119,3 +119,4 @@ dist
 *.shp.xml
 *.shx
 *.xml
+*.cpg
