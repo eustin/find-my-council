@@ -17,6 +17,5 @@ EXAMPLE_COORDS = {
 }
 
 if __name__ == "__main__":
-
     for landmark, coords in EXAMPLE_COORDS.items():
         print(f"{landmark} is located in {find_lga(*coords)} LGA")
