@@ -45,9 +45,10 @@ def get_lga_name(lga):
         return [lga_props[x] for x in lga_props if "LGA_NAME" in x].pop()
     except KeyError as e:
         logger.info(f"Key missing from LGA: {e}")
+        sys.exit()
     except IndexError as e:
         logger.info(f"LGA name missing: {e}")
-    sys.exit()
+        sys.exit()
 
 def build():
     fpath_shapefile = get_shapefile_fpath()
