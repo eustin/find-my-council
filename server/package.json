@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "watch": "npm config set script-shell \"/bin/bash\"; source venv/bin/activate; nodemon src/server.js",
+    "start": "npm config set script-shell \"/bin/bash\"; source venv/bin/activate; node src/server.js"
   },
   "keywords": [],
   "author": "",
