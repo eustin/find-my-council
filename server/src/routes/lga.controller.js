@@ -18,7 +18,7 @@ async function pyGetLGA(req, res) {
   }
 
   try {
-    const result = await getLGA();
+    const result = await getLGA(lat, lon);
     return res.status(200).json({ lga: result });
   } catch (err) {
     return res.status(500).json({ error: "Error getting LGA" });
