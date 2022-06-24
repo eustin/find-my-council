@@ -5,6 +5,7 @@ Find your Local Government Area given the your geocoded address
 
 * Python 3.x
 * If working on Ubuntu/Debian, you have `python3-venv` globally intalled. If not, intall it using `sudo apt install python3-venv`
+* Node.js v16 and npm
 * Bash
 
 I will eventually Dockerise so that you can avoid the above hassle. 
